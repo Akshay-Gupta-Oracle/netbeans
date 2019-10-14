@@ -61,6 +61,7 @@ public class ConvertTextBlockToStringTest {
                 .assertCompilable()
                 //TODO: change to match expected output
                 .assertOutput("package helloworld;\n" +
+
 "public class Test {\n" +
 "    public static void main(String[] args) {\n" +
 "        String a =\"abc\\n\"+\"def\n\"+\"hij\n\";\n"+
