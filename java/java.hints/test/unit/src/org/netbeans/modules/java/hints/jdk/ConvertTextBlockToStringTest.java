@@ -36,9 +36,15 @@ public class ConvertTextBlockToStringTest {
 
     @Test
     public void testFixWorking() throws Exception {
+        try {
+            SourceVersion.valueOf("RELEASE_13");
+        } catch (IllegalArgumentException ex) {
+            //OK, skip test
+            return ;
+        }
         HintTest.create()
                 .input("package helloworld;\n" +
-"public class HelloWorld {\n" +
+"public class Test {\n" +
 "    public static void main(String[] args) {\n" +
 "        String a =\"\"\"\n" +
 "                  abc\n" +
@@ -55,7 +61,7 @@ public class ConvertTextBlockToStringTest {
                 .assertCompilable()
                 //TODO: change to match expected output
                 .assertOutput("package helloworld;\n" +
-"public class HelloWorld {\n" +
+"public class Test {\n" +
 "    public static void main(String[] args) {\n" +
 "        String a =\"abc\\n\"+\"def\n\"+\"hij\n\";\n"+
 "    }\n" +
