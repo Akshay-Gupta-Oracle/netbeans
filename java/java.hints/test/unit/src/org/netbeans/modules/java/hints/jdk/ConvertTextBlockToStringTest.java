@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
-
 package org.netbeans.modules.java.hints.jdk;
 
 import org.junit.Test;
@@ -42,214 +39,269 @@ public class ConvertTextBlockToStringTest {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\n" +
-"                  def\n" +
-"                  hij\n" +
-"                  \"\"\";\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  def\n"
+                        + "                  hij\n"
+                        + "                  \"\"\";\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
-
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"abc\\n\" + \"def\\n\" + \"hij\\n\" + \"\";\n"+
-"    }\n" +
-"}");
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"def\\n\" + \"hij\\n\" + \"\";\n"
+                        + "    }\n"
+                        + "}");
     }
-  
-     // @Test
+
+    @Test
     public void simpleTest() throws Exception {
         try {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\"\"\";\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\"\"\";\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
-
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"abc\";\n"+
-"    }\n" +
-"}");
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\" + \"\";\n"
+                        + "    }\n"
+                        + "}");
     }
-  
-      @Test
+
+    @Test
     public void multipleNewLine() throws Exception {
         try {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\n" +
-"                  \n" +
-"                  \n" +
-"                  \n" +
-"                  \n" +
-"                  \n" +
-"                  \"\"\";\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  \n"
+                        + "                  \n"
+                        + "                  \n"
+                        + "                  \n"
+                        + "                  \n"
+                        + "                  \"\"\";\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
-
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"abc\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\";\n"+
-"    }\n" +
-"}");
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\\n\" + \"\";\n"
+                        + "    }\n"
+                        + "}");
     }
+
     @Test
     public void newLineAfter() throws Exception {
         try {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\n" +
-"                 def\"\"\"\n" +
-"                 \n" +
-"                 \n" +
-"                 \n" +
-"                 ;\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                 def\"\"\"\n"
+                        + "                 \n"
+                        + "                 \n"
+                        + "                 \n"
+                        + "                 ;\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
-
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\" abc\\n\" + \"def\"\n" +
-"                 \n" +
-"                 \n" +
-"                 \n" +
-"                 ;\n"+
-"    }\n" +
-"}");
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\" abc\\n\" + \"def\"\n"
+                        + "                 \n"
+                        + "                 \n"
+                        + "                 \n"
+                        + "                 ;\n"
+                        + "    }\n"
+                        + "}");
     }
+
     @Test
     public void manyLineTextBlock() throws Exception {
         try {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\n" +
-"                  def\n" +
-"                  ghi\n" +
-"                  jkl\n" +
-"                  mno\n" +
-"                  pqrs\n" +
-"                  tuv\n" +
-"                  wxyz\"\"\";\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  def\n"
+                        + "                  ghi\n"
+                        + "                  jkl\n"
+                        + "                  mno\n"
+                        + "                  pqrs\n"
+                        + "                  tuv\n"
+                        + "                  wxyz\"\"\";\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
-
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"abc\\n\" + \"def\\n\" + \"ghi\\n\" + \"jkl\\n\" + \"mno\\n\" + \"pqrs\\n\" + \"tuv\\n\" + \"wxyz\";\n"+
-"    }\n" +
-"}");
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"def\\n\" + \"ghi\\n\" + \"jkl\\n\" + \"mno\\n\" + \"pqrs\\n\" + \"tuv\\n\" + \"wxyz\";\n"
+                        + "    }\n"
+                        + "}");
     }
-  
-        @Test
+
+    @Test
     public void twoLineTextBlock() throws Exception {
         try {
             SourceVersion.valueOf("RELEASE_13");
         } catch (IllegalArgumentException ex) {
             //OK, skip test
-            return ;
+            return;
         }
         HintTest.create()
-                .input("package helloworld;\n" +
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"\"\"\n" +
-"                  abc\n" + 
-"                  def\"\"\";\n" +
-"    }\n" +
-"}") 
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  def\"\"\";\n"
+                        + "    }\n"
+                        + "}")
                 .sourceLevel(SourceVersion.latest().name())
                 .options("--enable-preview")
                 .run(ConvertTextBlockToString.class)
                 .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
                 .applyFix()
                 .assertCompilable()
-                //TODO: change to match expected output
-                .assertOutput("package helloworld;\n" +
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"def\";\n"
+                        + "    }\n"
+                        + "}");
+    }
 
-"public class Test {\n" +
-"    public static void main(String[] args) {\n" +
-"        String a =\"abc\\n\" + \"def\";\n"+
-"    }\n" +
-"}");
+    @Test
+    public void escapeCharTextBlock() throws Exception {
+        try {
+            SourceVersion.valueOf("RELEASE_13");
+        } catch (IllegalArgumentException ex) {
+            //OK, skip test
+            return;
+        }
+        HintTest.create()
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  \"def\"\"\";\n"
+                        + "    }\n"
+                        + "}")
+                .sourceLevel(SourceVersion.latest().name())
+                .options("--enable-preview")
+                .run(ConvertTextBlockToString.class)
+                .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
+                .applyFix()
+                .assertCompilable()
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"\\\"def\";\n"
+                        + "    }\n"
+                        + "}");
+    }
+
+    @Test
+    public void escapeCharTextBlock2() throws Exception {
+        try {
+            SourceVersion.valueOf("RELEASE_13");
+        } catch (IllegalArgumentException ex) {
+            //OK, skip test
+            return;
+        }
+        HintTest.create()
+                .input("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"\"\"\n"
+                        + "                  abc\n"
+                        + "                  \"def\n"
+                        + "                  ghi\n"
+                        + "                  'lmn'\n"
+                        + "                  opq\n"
+                        + "                  \"\"\";\n"
+                        + "    }\n"
+                        + "}")
+                .sourceLevel(SourceVersion.latest().name())
+                .options("--enable-preview")
+                .run(ConvertTextBlockToString.class)
+                .findWarning("3:18-3:21:verifier:" + Bundle.ERR_ConvertTextBlockToString())
+                .applyFix()
+                .assertCompilable()
+                .assertOutput("package helloworld;\n"
+                        + "public class Test {\n"
+                        + "    public static void main(String[] args) {\n"
+                        + "        String a =\"abc\\n\" + \"\\\"def\\n\" + \"ghi\\n\" + \"'lmn'\\n\" + \"opq\\n\" + \"\";\n"
+                        + "    }\n"
+                        + "}");
     }
 }
-
